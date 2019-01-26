@@ -10,3 +10,5 @@ player <- NBAPerGameStatistics(season = 2017)  %>%
             dplyr::filter(mp > 20, pos %in% c("SF")) %>%
             dplyr::select(player, link) %>%
             dplyr::distinct()
+
+View(player)

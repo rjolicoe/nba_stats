@@ -7,7 +7,7 @@
 #    http://shiny.rstudio.com/
 #
 
-# Test push to git
+
 library(shiny)
 library(shinydashboard)
 library(shinythemes)
@@ -34,10 +34,10 @@ ui <- fluidPage(theme = shinytheme('cerulean'),
         sidebarLayout(
       sidebarPanel(
          sliderInput("bins",
-                     "Number of bins:",
+                     "Number of teams:",
                      min = 1,
-                     max = 50,
-                     value = 30),
+                     max = 16,
+                     value = 5),
          dateInput("date1", "Choose date for Team Standings", value = Sys.Date()),
          radioButtons("conference", "Conference Choice:",
                       c("East", "West"))
@@ -62,7 +62,7 @@ ui <- fluidPage(theme = shinytheme('cerulean'),
                           max = 50,
                           value = 25),
               radioButtons("plyr_conference", "Conference Choice:", 
-                           c("East", "West","Both"))
+                           c("East", "West"))
             ),
           mainPanel(plotOutput("playerPlot")))
 )
