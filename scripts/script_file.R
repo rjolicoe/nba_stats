@@ -1,14 +1,14 @@
 # Team statistics page
 test <- NBAStandingsByDate(Sys.Date())
 
-test <- test$East
-View(test)
 
-# Player Statistics
+# Player Statistics a function to output the details for players
 
-player <- NBAPerGameStatistics(season = 2017)  %>%
-            dplyr::filter(mp > 20, pos %in% c("SF")) %>%
-            dplyr::select(player, link) %>%
-            dplyr::distinct()
+player <- function(season, mins, position) {
+  NBAPerGameStatistics(season = season)  %>%
+    # dplyr::filter(mp > mins, pos %in% c(position)) %>%
+    # dplyr::select(player, link, g) %>%
+    dplyr::distinct()
+  
+}
 
-View(player)

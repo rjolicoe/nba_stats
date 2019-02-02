@@ -15,6 +15,7 @@ library(ggplot2)
 library(dplyr)
 library(ballr)
 library(DT)
+source("scripts/script_file.R")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(theme = shinytheme('cerulean'),
@@ -53,47 +54,44 @@ ui <- fluidPage(theme = shinytheme('cerulean'),
    )
 ),
    # Start of second tab player statistics
-      tabPanel("Player Statisticis",
+      tabPanel("Player Statistics",
           sidebarLayout(
             sidebarPanel(
               sliderInput("players",
-                          "Number of players:",
-                          min = 1,
-                          max = 50,
-                          value = 25),
+                          "Season Played from 1950 to current:",
+                          min = 1950,
+                          max = year(Sys.Date()),
+                          value = 2018),
               radioButtons("plyr_conference", "Conference Choice:", 
                            c("East", "West"))
             ),
-          mainPanel(plotOutput("playerPlot")))
-)
-)
-)
+          mainPanel(
+            h2(textOutput("plyr_season")),
+            DT::dataTableOutput("playerstats")
+          )
+))))
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
-   
-   output$distPlot <- renderPlot({
-      # generate bins based on input$bins from ui.R
-      x    <- faithful[, 2] 
-      bins <- seq(min(x), max(x), length.out = input$bins + 1)
-      
-      # draw the histogram with the specified number of bins
-      hist(x, breaks = bins, col = 'darkgray', border = 'white')
-   })
-   
-   output$playerPlot <- renderPlot({
-     # generate bins based input$players from ui.R
-     x <- faithful[,2]
-     bins <- seq(min(x), max(x), length.out = input$bins+1)
-     
-     hist(x, breaks = bins, col = 'darkgray', border = 'white')
-   })
-   
+
+    # Team statistics
    output$teamstats <- DT::renderDataTable({
       standings <- NBAStandingsByDate(input$date1) 
       standings <- as.data.frame(standings[input$conference])
       
       standings
+   })
+   
+   # Player Statistics
+   output$playerstats <- DT::renderDataTable({
+     # Will move the slider inyear for the year with summaries
+     player_stats <- player(input$players)
+     
+     player_stats
+   })
+   
+   output$plyr_season <- renderText({
+     paste("Player Statistics in:", input$players)
    })
    
 }
