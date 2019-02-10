@@ -15,6 +15,10 @@ library(ggplot2)
 library(dplyr)
 library(ballr)
 library(DT)
+library(lubridate)
+library(magrittr)
+library(janitor)
+library(scales)
 source("scripts/script_file.R")
 
 # Define UI for application that draws a histogram
